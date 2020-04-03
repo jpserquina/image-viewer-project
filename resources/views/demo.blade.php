@@ -18,10 +18,10 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 @if ($grayscale)
-                                <a class="btn btn-sm btn-outline-primary" href="/view/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}" role="button">Color</a>
+                                <a class="btn btn-sm btn-success" href="/view/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}" role="button">View color</a>
                                 <a class="btn btn-sm btn-outline-primary" href="/id/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}?grayscale" role="button">View raw</a>
                                 @else
-                                <a class="btn btn-sm btn-secondary" href="/view/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}?grayscale" role="button">Grayscale</a>
+                                <a class="btn btn-sm btn-secondary" href="/view/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}?grayscale" role="button">View Gray</a>
                                 <a class="btn btn-sm btn-outline-primary" href="/id/{{ $image->id }}/{{ $image->width }}/{{ $image->height }}" role="button">View raw</a>
                                 @endif
                             </div>

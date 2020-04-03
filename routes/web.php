@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ImagesController@getImages');
+Route::get('/', 'ImagesController@index');
 
-Route::get('/id/{id}/{width}/{height}','ImagesController@viewImage');
+Route::get('/id/{id}/{width}/{height}','ImagesController@showRaw');
 
 Route::get('/view/{id}/{width}/{height}','ImagesController@show');
 
-Route::get('/api/{id}/{width}/{height}','ImagesController@viewApiImage');
+Route::get('/api/id/{id}/{width}/{height}','ImageApiController@show');
 
-Route::get('/api','ImagesController@viewApi');
+Route::get('/api','ImageApiController@index')->name('api');
 
 Route::get('/phpinfo', function () {
     return view('phpinfo');
