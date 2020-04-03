@@ -1,3 +1,20 @@
+## Setting up
+    install Docker Desktop
+    pull repo
+    go into project folder `~\image-viewer-project`
+    (inside folder image-viewer-project)
+    cd laradock
+    copy env-example .env
+    docker-compose up -d nginx mysql
+    (allow permissions for Docker file access to host drive)
+    docker exec -it laradock_workspace_1 bash
+    (inside workspace instance, folder /var/www, user root)
+    cp .env.example .env
+    composer install
+    php artisan key:generate
+    
+---
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
