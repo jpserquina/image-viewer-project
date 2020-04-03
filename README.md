@@ -12,7 +12,7 @@
     cp .env.example .env
     composer install
     php artisan key:generate
-    (visit page at http://localhost)
+    (visit page at http://localhost/phpinfo to verify app install success)
 ---
 
 ## Usage - front-end

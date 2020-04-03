@@ -13,9 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ImageController@getImages');
+Route::get('/', 'ImagesController@getImages');
 
-Route::get('/{id}','ImageController@show');
+Route::get('/id/{id}/{width}/{height}','ImagesController@viewImage');
+
+Route::get('/view/{id}/{width}/{height}','ImagesController@show');
+
+Route::get('/api/{id}/{width}/{height}','ImagesController@viewApiImage');
+
+Route::get('/api','ImagesController@viewApi');
 
 Route::get('/phpinfo', function () {
     return view('phpinfo');
