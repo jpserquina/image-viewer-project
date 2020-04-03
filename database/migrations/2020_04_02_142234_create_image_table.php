@@ -15,15 +15,14 @@ class CreateImageTable extends Migration
     {
         Schema::create('image', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('url');
-            $table->string('thumbnail_url');
-            $table->dateTimeTz('created_ts');
-            $table->dateTimeTz('modified_ts');
-            $table->integer('width')->unsigned();
-            $table->integer('height')->unsigned();
-            $table->string('name');
-            $table->text('description');
-            $table->timestamps();
+            $table->string('url')->default('');
+            $table->string('thumbnail_url')->default('');
+            $table->integer('width')->unsigned()->default(0);
+            $table->integer('height')->unsigned()->default(0);
+            $table->string('name')->default('');
+            $table->string('description')->default('');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

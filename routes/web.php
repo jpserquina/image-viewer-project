@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [
+    'as' => 'images',
+    'uses' => 'ImageController@getImages'
+]);
 
 Route::get('/phpinfo', function () {
     return view('phpinfo');
-});
-
-Route::get('/demo', function () {
-    return view('demo');
 });

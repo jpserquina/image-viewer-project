@@ -1,7 +1,7 @@
 ## Setting up
-    install Docker Desktop
-    pull repo
-    go into project folder `~\image-viewer-project`
+    (install Docker Desktop)
+    (pull repo)
+    (go into project folder `~\image-viewer-project`)
     (inside folder image-viewer-project)
     cd laradock
     copy env-example .env
@@ -12,7 +12,7 @@
     cp .env.example .env
     composer install
     php artisan key:generate
-    
+    (visit page at http://localhost)
 ---
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
