@@ -15,6 +15,12 @@
     (visit page at http://localhost)
 ---
 
+## Usage - front-end
+    / - list all images (lazy-loading, 6 per page)
+    /{id} - display one iamge
+    /{id}?grayscale - display an image in grayscale
+---
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
