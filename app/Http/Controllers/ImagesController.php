@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ImageCollection as ImageCollection;
 use Illuminate\Http\Request;
 use App\Images;
 use Intervention\Image\Facades\Image;
 use GuzzleHttp\Client;
-use App\Helpers\General\CollectionHelper;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class ImagesController
@@ -16,6 +13,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class ImagesController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $query_string = [];
@@ -38,7 +39,7 @@ class ImagesController extends Controller
         $client = new Client();
         $api_fetch = $client->request('GET', $url)->getBody()->getContents();
         $api_fetch = str_replace('host.docker.internal', 'localhost', $api_fetch);
-        $images = json_decode($api_fetch, true);
+        $images = (array) json_decode($api_fetch, true);
 
         return view('demo', ['results' => collect($images['data']), 'links' => $images['links']]);
     }
@@ -65,7 +66,7 @@ class ImagesController extends Controller
         $client = new Client();
         $api_fetch = $client->request('GET', $url)->getBody()->getContents();
         $api_fetch = str_replace('host.docker.internal', 'localhost', $api_fetch);
-        $images = (array)json_decode($api_fetch, true);
+        $images = (array) json_decode($api_fetch, true);
 
         return view('demo', ['results' => [$images['data']], 'grayscale' => $is_grayscale]);
     }

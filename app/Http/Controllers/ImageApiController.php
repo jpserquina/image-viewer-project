@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Images;
-use App\Http\Resources\Image as ImageResource;
-use App\Http\Resources\ImageCollection;
-use Intervention\Image\Facades\Image;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
  * Class ImagesController
@@ -22,7 +19,7 @@ class ImageApiController extends Controller
     public function index(Request $request)
     {
         $images = Images::filter($request);
-        $data = new ImageCollection($images);
+        $data = new ResourceCollection($images);
         $links = (string) $images->links();
         $query_string = $request->query();
         unset($query_string['page']);

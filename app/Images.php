@@ -41,8 +41,7 @@ class Images extends Model
 
     /**
      * @param Request $request
-     * @param Images $image
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public static function filter(Request $request)
     {
@@ -60,26 +59,33 @@ class Images extends Model
         return $image->paginate(6);
     }
 
-    public function scopeExclude($query,$value = array())
-    {
-        return $query->select( array_diff( $this->columns,(array) $value) );
-    }
-
+    /**
+     * @return string
+     */
     public function getImageAttribute()
     {
         return asset(implode('/', ['', 'id', $this->id, $this->width, $this->height]));
     }
 
+    /**
+     * @return string
+     */
     public function getImageGrayscaleAttribute()
     {
         return $this->getImageAttribute() . '?grayscale';
     }
 
+    /**
+     * @return string
+     */
     public function getImageThumbnailAttribute()
     {
         return asset(implode('/', ['', 'thumb', 'id', $this->id, $this->width, $this->height]));
     }
 
+    /**
+     * @return string
+     */
     public function getImageThumbnailGrayscaleAttribute()
     {
         return $this->getImageThumbnailAttribute() . '?grayscale';
