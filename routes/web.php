@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ImagesController@index');
+Route::get('/', 'ImagesController@index')->name('frontend');
 
 Route::get('/id/{id}/{width}/{height}','ImagesController@showRaw');
 

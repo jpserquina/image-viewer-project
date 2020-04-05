@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ImageCollection as ImageCollection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Images;
 use Intervention\Image\Facades\Image;
 use GuzzleHttp\Client;
+use App\Helpers\General\CollectionHelper;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class ImagesController
@@ -14,31 +16,33 @@ use GuzzleHttp\Client;
  */
 class ImagesController extends Controller
 {
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function index(Request $request)
     {
+        $query_string = [];
         $width = $request->get('width', 0);
         $height = $request->get('height', 0);
         $page = $request->get('page', 1);
+        if ($request->has('width')  && $width > 0)
+        {
+            $query_string['width'] = $width;
+        }
+        if ($request->has('height') && $height > 0)
+        {
+            $query_string['height'] = $height;
+        }
+        $query_string['page'] = $page;
 
         // note: this should be using the route() helper function
         // but this needs to be a specific IP alias to work with docker
-        // $url = route('api', [
-        $url = 'http://host.docker.internal/api?' . http_build_query([
-            'page' => $page,
-            'width' => $width,
-            'height' => $height,
-        ]);
+        $url = 'http://host.docker.internal/api?' . http_build_query($query_string);
         $client = new Client();
         $api_fetch = $client->request('GET', $url)->getBody()->getContents();
-        $object = (array)json_decode($api_fetch);
-        $images = new Images();
-        $images->forceFill($object);
+        $api_fetch = str_replace('host.docker.internal', 'localhost', $api_fetch);
+        $images = json_decode($api_fetch, true);
 
-        return view('demo', ['images' => $images::paginate(6)]);
+        return view('demo', ['results' => collect($images['data']), 'links' => $images['links']]);
     }
+
 
     /**
      * @param Request $request
@@ -53,7 +57,6 @@ class ImagesController extends Controller
 
         // note: this should be using the route() helper function
         // but this needs to be a specific IP alias to work with docker
-        // $url = route('api', [
         $url = 'http://host.docker.internal/api/id/' .
                 $id . '/' .
                 $width . '/' .
@@ -61,11 +64,10 @@ class ImagesController extends Controller
                 ((int)$is_grayscale ? '?grayscale' : '');
         $client = new Client();
         $api_fetch = $client->request('GET', $url)->getBody()->getContents();
-        $object = (array)json_decode($api_fetch);
-        $image = new Images();
-        $image->forceFill($object);
+        $api_fetch = str_replace('host.docker.internal', 'localhost', $api_fetch);
+        $images = (array)json_decode($api_fetch, true);
 
-        return view('demo', ['images' => [$image], 'grayscale' => $is_grayscale]);
+        return view('demo', ['results' => [$images['data']], 'grayscale' => $is_grayscale]);
     }
 
     /**

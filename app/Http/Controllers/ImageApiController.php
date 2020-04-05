@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Images;
 use App\Http\Resources\Image as ImageResource;
-use App\Http\Resources\ImageCollection as ImageCollection;
+use App\Http\Resources\ImageCollection;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -17,21 +17,35 @@ class ImageApiController extends Controller
 {
     /**
      * @param Request $request
-     * @return ImageCollection
+     * @return array
      */
     public function index(Request $request)
     {
-        return new ImageCollection(Images::filter($request));
+        $images = Images::filter($request);
+        $data = new ImageCollection($images);
+        $links = (string) $images->links();
+        $query_string = $request->query();
+        unset($query_string['page']);
+        $query_string = http_build_query($query_string);
+        $links = str_replace('/api', '', $links);
+        $links = !empty($query_string)
+            ? preg_replace('/\?/', '?' . $query_string . '&', $links) : $links;
+        return [
+            'data' =>  $data->collection,
+            'links' => $links,
+        ];
     }
 
     /**
      * @param Request $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     public function show(Request $request, $id)
     {
-        return new ImageCollection(Images::filter($request));
-        //        return response()->json(Images::exclude(['url','thumbnail_url'])->find($id));
+        $data = Images::find($id);
+        return [
+            'data' =>  $data,
+        ];
     }
 }

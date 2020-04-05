@@ -15,10 +15,9 @@
     $('ul.pagination').hide();
     $(function() {
         $('.infinite-scroll').jscroll({
-            debug: true,
             autoTrigger: true,
             padding: 20,
-            loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+            loadingHtml: '<div class="row center-block"><div class="col-md-4"></div><div class="col-md-4 text-center"><img src="/images/loading.gif" alt="Loading..."></div><div class="col-md-4"></div></div>',
             nextSelector: '.pagination li.active + li a',
             contentSelector: '.infinite-scroll',
             callback: function() {
