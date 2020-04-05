@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Images;
+use App\Http\Resources\Image as ImageResource;
+use App\Http\Resources\ImageCollection as ImageCollection;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -15,25 +17,11 @@ class ImageApiController extends Controller
 {
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return ImageCollection
      */
     public function index(Request $request)
     {
-        $width = $request->get('width');
-        $height = $request->get('height');
-        $page = $request->get('page');
-        return response()->json(
-            DB::table('image')
-                ->when($height, function($query) use ($height) {
-                    if ($height > 0) return $query->where('height', $height);
-                })
-                ->when($width, function($query) use ($width) {
-                    if ($width > 0) return $query->where('width', $width);
-                })
-                ->paginate(6)
-        );
-
-//        return response()->json(Images::exclude(['url','thumbnail_url'])->paginate(6));
+        return new ImageCollection(Images::filter($request));
     }
 
     /**
@@ -43,6 +31,7 @@ class ImageApiController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return response()->json(Images::exclude(['url','thumbnail_url'])->find($id));
+        return new ImageCollection(Images::filter($request));
+        //        return response()->json(Images::exclude(['url','thumbnail_url'])->find($id));
     }
 }

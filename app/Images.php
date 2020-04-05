@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -37,6 +38,27 @@ class Images extends Model
         'name',
         'description',
     );
+
+    /**
+     * @param Request $request
+     * @param Images $image
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function filter(Request $request)
+    {
+        $image = (new Images)->newQuery();
+
+        if ($request->has('width'))
+        {
+            $image->where('width', $request->input('width'));
+        }
+        if ($request->has('height'))
+        {
+            $image->where('height', $request->input('height'));
+        }
+
+        return $image->paginate(6);
+    }
 
     public function scopeExclude($query,$value = array())
     {
