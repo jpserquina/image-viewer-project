@@ -3,6 +3,18 @@
         <h1 class="jumbotron-heading">Album example</h1>
         <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sIet, but not too short so folks don't simply skip over it entirely.</p>
         <p>
+        <div class="card bg-light mt-3">
+            <div class="card-body">
+                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="csv_file" class="form-control">
+                    <br>
+                    <button class="btn btn-success">Import User Data</button>
+                </form>
+            </div>
+        </div>
+        </p>
+        <p>
             <a href="/" class="btn btn-primary">All images</a>
         </p>
         <p>

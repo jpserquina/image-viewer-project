@@ -35,6 +35,8 @@ class Images extends Model
     protected $fillable = array(
         'url',
         'thumbnail_url',
+        'width',
+        'height',
         'name',
         'description',
     );

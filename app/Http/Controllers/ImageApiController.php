@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Images;
+use App\Imports\ImageCSVImport;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class ImagesController
@@ -44,5 +46,16 @@ class ImageApiController extends Controller
         return [
             'data' =>  $data,
         ];
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import(Request $request)
+    {
+        Excel::import(new ImageCSVImport, request()->file('csv_file'));
+
+        return redirect('/')->with('success', 'CSV imported.');
     }
 }

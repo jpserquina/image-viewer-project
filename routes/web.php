@@ -23,6 +23,8 @@ Route::get('/api/id/{id}/{width}/{height}','ImageApiController@show');
 
 Route::get('/api','ImageApiController@index')->name('api');
 
+Route::post('/api/import', 'ImageApiController@import')->name('import');
+
 Route::get('/phpinfo', function () {
     return view('phpinfo');
 });
