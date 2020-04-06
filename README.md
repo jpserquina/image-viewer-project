@@ -1,24 +1,44 @@
-## Setting up
-    (install Docker Desktop)
-    (pull repo)
-    (go into project folder `~\image-viewer-project`)
-    (inside folder image-viewer-project)
-    cd laradock
-    copy env-example .env
-    docker-compose up -d nginx mysql
-    (allow permissions for Docker file access to host drive)
-    docker exec -it laradock_workspace_1 bash
-    (inside workspace instance, folder /var/www, user root)
-    cp .env.example .env
-    composer install
-    php artisan key:generate
-    (visit page at http://localhost/phpinfo to verify app install success)
+# image-viewer-project
+* Kickstarted Laravel 7 project, to show an image viewer with the following features
+    * Responsive infinite-scroll image list display
+    * Filter list by dimensions
+    * View image in color or grayscale, either within the front-end or raw
+    * Raw images reference the project's URI, and hides source image URLs
+    * Add new images into the system via CSV import (with CSRF upload)
+    * Exposes certain API endpoints for image import, list, and show
 ---
+## Setting up - checklist
+##### It it highly recommended to use [Laradock](https://laradock.io) with this project
+* (install Docker Desktop)
+* (allow file / drive permissions for Docker Desktop)
+* (pull repo, and pull associated submodules)
+* (go into project folder `~\image-viewer-project`)
+* (inside folder image-viewer-project)
+* `$ cd laradock`
+* `$ copy env-example .env`
+* `$ docker-compose up --build -d nginx mysql`
+* (allow permissions for Docker file access to host drive)
+* `$ docker exec -it laradock_workspace_1 bash`
+* (inside workspace instance, folder /var/www, user root)
+* `# composer install`
+* `# cp .env.example .env`
+* (modify .env, see section below: [Laravel .env - running on Laradock]())
+* `# php artisan key:generate`
+* `# php artisan migrate`
+* (test: [localhost](http://localhost))
+* (for CSV import, use the file [images.csv](https://github.com/jpserquina/image-viewer-project/blob/master/public/files/images.csv))
+---
+## Laravel `.env` - running on Laradock 
+after copying `.env.example` to `.env` in the Laravel folder,
 
-## Usage - front-end
-    / - list all images (lazy-loading, 6 per page)
-    /{id} - display one iamge
-    /{id}?grayscale - display an image in grayscale
+edit the `.env` details as follows
+
+    DB_CONNECTION=mysql
+    DB_HOST=mysql
+    DB_PORT=3306
+    DB_DATABASE=default
+    DB_USERNAME=root
+    DB_PASSWORD=root 
 ---
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
